@@ -31,12 +31,12 @@ class MainActivity : AppCompatActivity() {
 
         recycler.adapter = adapter
 
-        setupObservers()
+        setupObserver()
 
         setupScrollView()
     }
 
-    private fun setupObservers() {
+    private fun setupObserver() {
         viewModel.oompaLoompaWorkers.observe(this, Observer {
             it?.let { resource ->
                 when (resource.status) {

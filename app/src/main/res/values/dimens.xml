@@ -5,4 +5,5 @@
     <dimen name="small_margin">8dp</dimen>
     <dimen name="xsmall_margin">4dp</dimen>
     <dimen name="item_worker_image_height">200dp</dimen>
+    <dimen name="description">14sp</dimen>
 </resources>
