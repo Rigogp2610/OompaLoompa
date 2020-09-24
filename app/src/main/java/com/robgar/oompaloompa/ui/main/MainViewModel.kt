@@ -5,16 +5,14 @@ import androidx.lifecycle.ViewModel
 import com.robgar.oompaloompa.data.model.OompaLoompaWorkers
 import com.robgar.oompaloompa.data.repository.MainRepository
 import com.robgar.oompaloompa.utils.Resource
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
     val oompaLoompaWorkers = MutableLiveData<Resource<OompaLoompaWorkers>>()
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
     private var page: Int = 1
+    var totalPages: Int = 1
 
     fun getOompaLoompaWorkers() {
         coroutineScope.launch {
@@ -25,6 +23,13 @@ class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
             } catch (exception: Exception) {
                 oompaLoompaWorkers.postValue(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
             }
+        }
+    }
+
+    fun nextPage() {
+        page += 1
+        if (totalPages >= page) {
+            getOompaLoompaWorkers()
         }
     }
 
