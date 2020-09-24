@@ -1,6 +1,8 @@
 package com.robgar.oompaloompa.ui.main
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -62,7 +64,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun retrieveData(oompaLoompaWorkers: OompaLoompaWorkers) {
-        adapter.workers += oompaLoompaWorkers.workers
+        adapter.workers = viewModel.getFilteredWorkers(adapter.workers + oompaLoompaWorkers.workers)
     }
 
     private fun setupScrollView() {
@@ -80,5 +82,15 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }))
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        adapter.workers = viewModel.getFilteredWorkers(adapter.workers, item.itemId)
+        return super.onOptionsItemSelected(item)
     }
 }
