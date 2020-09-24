@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/filter_profession"
+        android:title="@string/profession"/>
+    <item
+        android:id="@+id/filter_gender"
+        android:title="@string/gender"/>
+
+    <item
+        android:id="@+id/filter_profession_gender"
+        android:title="@string/profession_gender"/>
+</menu>

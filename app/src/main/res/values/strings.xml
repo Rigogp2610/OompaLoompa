@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">OompaLoompa</string>
+    <string name="profession">Profession</string>
+    <string name="gender">Gender</string>
+    <string name="profession_gender">Profession and gender</string>
 </resources>

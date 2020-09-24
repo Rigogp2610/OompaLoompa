@@ -1,16 +1,13 @@
 package com.robgar.oompaloompa.ui.detail
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import com.robgar.oompaloompa.R
-import com.robgar.oompaloompa.data.model.OompaLoompaWorkers
 import com.robgar.oompaloompa.data.model.Worker
 import com.robgar.oompaloompa.ui.loadUrl
 import com.robgar.oompaloompa.ui.main.MainActivity
-import com.robgar.oompaloompa.ui.main.MainViewModel
 import com.robgar.oompaloompa.utils.Status
 import kotlinx.android.synthetic.main.activity_detail.*
 import org.koin.androidx.viewmodel.ext.android.viewModel
