@@ -40,12 +40,12 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupObserver() {
         viewModel.oompaLoompaWorkers.observe(this, Observer {
-            it?.let { resource ->
-                when (resource.status) {
+            it?.let { result ->
+                when (result.status) {
                     Status.SUCCESS -> {
                         recycler.visibility = View.VISIBLE
                         progress.visibility = View.GONE
-                        resource.data?.let { oompaLoompaWorkers ->
+                        result.data?.let { oompaLoompaWorkers ->
                             viewModel.totalPages = oompaLoompaWorkers.totalPages
                             retrieveData(oompaLoompaWorkers)
                         }

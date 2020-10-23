@@ -2,9 +2,11 @@ package com.robgar.oompaloompa.ui.detail
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.robgar.oompaloompa.data.model.OompaLoompaWorkers
 import com.robgar.oompaloompa.data.model.Worker
 import com.robgar.oompaloompa.data.repository.DetailRepository
-import com.robgar.oompaloompa.utils.Resource
+import com.robgar.oompaloompa.utils.Result
+import com.robgar.oompaloompa.utils.Status
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -12,17 +14,17 @@ import kotlinx.coroutines.launch
 
 class DetailViewModel(private val detailRepository: DetailRepository) : ViewModel() {
 
-    val worker = MutableLiveData<Resource<Worker>>()
+    val worker = MutableLiveData<Result<Worker>>()
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     fun getWorker(id: Int) {
         coroutineScope.launch {
             val oompaLoompaWorker = detailRepository.getWorker(id)
-            worker.postValue(Resource.loading(data = null))
+            worker.postValue(Result.Loading(_data = null))
             try {
-                worker.postValue(Resource.success(data = oompaLoompaWorker))
+                worker.postValue(Result.Success(_data = oompaLoompaWorker))
             } catch (exception: Exception) {
-                worker.postValue(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+                worker.postValue(Result.Error(_data = null, _message = exception.message ?: "Error Occurred!"))
             }
         }
     }

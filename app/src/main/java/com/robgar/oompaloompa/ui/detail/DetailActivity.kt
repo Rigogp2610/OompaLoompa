@@ -25,10 +25,10 @@ class DetailActivity : AppCompatActivity() {
 
     private fun setupObserver() {
         viewModel.worker.observe(this, Observer {
-            it?.let { resource ->
-                when (resource.status) {
+            it?.let { result ->
+                when (result.status) {
                     Status.SUCCESS -> {
-                        resource.data?.let { worker ->
+                        result.data?.let { worker ->
                             retrieveData(worker)
                         }
                     } Status.ERROR -> {
