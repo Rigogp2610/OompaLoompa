@@ -6,7 +6,8 @@ import com.robgar.oompaloompa.R
 import com.robgar.oompaloompa.data.model.OompaLoompaWorkers
 import com.robgar.oompaloompa.data.model.Worker
 import com.robgar.oompaloompa.data.repository.MainRepository
-import com.robgar.oompaloompa.utils.Resource
+import com.robgar.oompaloompa.utils.Result
+import com.robgar.oompaloompa.utils.Status
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -14,20 +15,20 @@ import kotlinx.coroutines.launch
 
 class MainViewModel(private val mainRepository: MainRepository) : ViewModel() {
 
-    val oompaLoompaWorkers = MutableLiveData<Resource<OompaLoompaWorkers>>()
+    val oompaLoompaWorkers = MutableLiveData<Result<OompaLoompaWorkers>>()
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
     private var page: Int = 1
     var totalPages: Int = 1
     private var filter: Int = 0
 
     fun getOompaLoompaWorkers() {
+        oompaLoompaWorkers.postValue(Result.Loading(_data = null))
         coroutineScope.launch {
-            val workers = mainRepository.getOompaLoompaWorkers(page)
-            oompaLoompaWorkers.postValue(Resource.loading(data = null))
             try {
-                oompaLoompaWorkers.postValue(Resource.success(data = workers))
+                val workers = mainRepository.getOompaLoompaWorkers(page)
+                oompaLoompaWorkers.postValue(Result.Success(_data = workers))
             } catch (exception: Exception) {
-                oompaLoompaWorkers.postValue(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
+                oompaLoompaWorkers.postValue(Result.Error(_data = null, _message = exception.message ?: "Error Occurred!"))
             }
         }
     }
