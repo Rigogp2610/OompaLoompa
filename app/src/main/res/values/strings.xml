@@ -3,4 +3,6 @@
     <string name="profession">Profession</string>
     <string name="gender">Gender</string>
     <string name="profession_gender">Profession and gender</string>
+    <string name="oompa_loompa_workers_fragment">Oompa Loompa Workers</string>
+    <string name="oompa_loompa_worker_fragment">Oompa Loompa Detail</string>
 </resources>

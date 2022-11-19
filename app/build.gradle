@@ -1,14 +1,14 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'androidx.navigation.safeargs.kotlin'
 
 android {
     compileSdkVersion 33
 
     defaultConfig {
         applicationId "com.robgar.oompaloompa"
-        minSdkVersion 16
+        minSdkVersion 23
         targetSdkVersion 33
         versionCode 1
         versionName "1.0"
@@ -21,6 +21,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    buildFeatures {
+        viewBinding true
     }
 }
 
@@ -38,6 +42,10 @@ dependencies {
 
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+    //Navigation - Sirve para navegar entre las diferentes pantallas
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
 
     //Koin - librería para inyectar dependencias
     implementation "org.koin:koin-androidx-viewmodel:2.1.6"
