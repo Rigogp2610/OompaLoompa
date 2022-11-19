@@ -9,20 +9,37 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:padding="@dimen/xxsmall_padding"
         android:clipToPadding="false"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/item_oompa_loompa_worker"/>
+        tools:listitem="@layout/item_oompa_loompa_worker"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/progressPagination"/>
 
-    <ProgressBar
+    <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progress"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/lottie_height"
+        app:lottie_fileName="progress_animation.json"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/progressPagination"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/lottie_height"
+        app:lottie_fileName="progress_animation.json"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
         android:visibility="gone"
-        tools:visibility="visible"
+        android:layout_marginTop="@dimen/medium_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
