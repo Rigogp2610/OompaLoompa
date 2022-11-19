@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
@@ -54,6 +55,7 @@ class OompaLoompaWorkersFragment : Fragment() {
                     Status.SUCCESS -> {
                         binding.recycler.visibility = View.VISIBLE
                         binding.progress.visibility = View.GONE
+                        binding.progressPagination.visibility = View.GONE
                         result.data?.let { oompaLoompaWorkers ->
                             viewModel.totalPages = oompaLoompaWorkers.totalPages
                             retrieveData(oompaLoompaWorkers)
@@ -62,11 +64,16 @@ class OompaLoompaWorkersFragment : Fragment() {
                     Status.ERROR -> {
                         binding.recycler.visibility = View.VISIBLE
                         binding.progress.visibility = View.GONE
+                        binding.progressPagination.visibility = View.GONE
                         Toast.makeText(requireActivity(), result.message, Toast.LENGTH_LONG).show()
                     }
                     Status.LOADING -> {
-                        binding.recycler.visibility = View.GONE
-                        binding.progress.visibility = View.VISIBLE
+                        if (viewModel.getCurrentPage() == viewModel.firstPage) {
+                            binding.recycler.visibility = View.GONE
+                            binding.progress.visibility = View.VISIBLE
+                        } else {
+                            binding.progressPagination.visibility = View.VISIBLE
+                        }
                     }
                 }
             }

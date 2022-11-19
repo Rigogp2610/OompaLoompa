@@ -22,22 +22,23 @@ class OompaLoompaWorkersViewModel(private val oompaLoompaWorkersRepository: Oomp
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     private val errorOcurred = "Error Occurred!"
+    val firstPage = 1
 
-    private var nextPage: Int = 1
+    private var page: Int = 1
     private var currentPage: Int = 0
     var totalPages: Int = 1
     private var filter: Int = 0
 
     fun nextPage() {
-        nextPage += 1
-        if (totalPages >= nextPage && nextPage > currentPage) {
+        page += 1
+        if (totalPages >= page && page > currentPage) {
             getOompaLoompaWorkers()
         }
     }
 
     fun getOompaLoompaWorkers() {
-        if (nextPage > currentPage) {
-            currentPage = nextPage
+        if (page > currentPage) {
+            currentPage = page
             getOompaLoompaWorkersByPage()
         }
     }
@@ -46,7 +47,7 @@ class OompaLoompaWorkersViewModel(private val oompaLoompaWorkersRepository: Oomp
         _oompaLoompaWorkers.postValue(ConsumableValue(Result.Loading(_data = null)))
         coroutineScope.launch {
             try {
-                val workers = oompaLoompaWorkersRepository.getOompaLoompaWorkers(nextPage)
+                val workers = oompaLoompaWorkersRepository.getOompaLoompaWorkers(page)
                 _oompaLoompaWorkers.postValue(ConsumableValue(Result.Success(_data = workers)))
             } catch (exception: Exception) {
                 _oompaLoompaWorkers.postValue(ConsumableValue(Result.Error(_data = null, _message = exception.message ?: errorOcurred)))
@@ -65,6 +66,8 @@ class OompaLoompaWorkersViewModel(private val oompaLoompaWorkersRepository: Oomp
 
         return sortedList
     }
+
+    fun getCurrentPage() = currentPage
 
     override fun onCleared() {
         super.onCleared()
