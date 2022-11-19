@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/oompaLoompaWorkersFragment">
+
+    <fragment
+        android:id="@+id/oompaLoompaWorkersFragment"
+        android:name="com.robgar.oompaloompa.ui.oompaloompaworkers.OompaLoompaWorkersFragment"
+        android:label="@string/oompa_loompa_workers_fragment"
+        tools:layout="@layout/fragment_oompa_loompa_workers_fragment" >
+        <action
+            android:id="@+id/action_oompaLoompaWorkersFragment_to_oompaLoompaWorkerFragment"
+            app:destination="@id/oompaLoompaWorkerFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/oompaLoompaWorkerFragment"
+        android:name="com.robgar.oompaloompa.ui.oompaloompaworker.OompaLoompaWorkerFragment"
+        android:label="@string/oompa_loompa_worker_fragment"
+        tools:layout="@layout/fragment_oompa_loompa_worker_fragment">
+
+        <argument
+            android:name="idOompaLoompaWorker"
+            app:argType="integer"
+            android:defaultValue="0"/>
+
+    </fragment>
+
+</navigation>
