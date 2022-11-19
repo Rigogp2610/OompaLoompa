@@ -2,7 +2,7 @@ package com.robgar.oompaloompa.data.model
 
 import com.google.gson.annotations.SerializedName
 
-class WorkerFavorite(
+class Favorite(
     @SerializedName("color")
     var color: String,
     @SerializedName("food")

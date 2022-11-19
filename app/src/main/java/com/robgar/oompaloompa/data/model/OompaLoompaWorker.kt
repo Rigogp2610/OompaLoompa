@@ -2,7 +2,7 @@ package com.robgar.oompaloompa.data.model
 
 import com.google.gson.annotations.SerializedName
 
-data class Worker (
+data class OompaLoompaWorker (
     @SerializedName("first_name")
     val firstName: String,
     @SerializedName("last_name")
@@ -10,7 +10,7 @@ data class Worker (
     @SerializedName("description")
     val description: String,
     @SerializedName("favorite")
-    val workerFavorite: WorkerFavorite,
+    val favorite: Favorite,
     @SerializedName("gender")
     val gender: String,
     @SerializedName("image")
