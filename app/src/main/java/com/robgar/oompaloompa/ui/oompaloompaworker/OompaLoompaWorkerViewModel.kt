@@ -1,5 +1,6 @@
 package com.robgar.oompaloompa.ui.oompaloompaworker
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.robgar.oompaloompa.data.model.OompaLoompaWorker
@@ -12,17 +13,19 @@ import kotlinx.coroutines.launch
 
 class OompaLoompaWorkerViewModel(private val oompaLoompaWorkerRepository: OompaLoompaWorkerRepository) : ViewModel() {
 
-    val oompaLoompaWorker = MutableLiveData<Result<OompaLoompaWorker>>()
+    private val _oompaLoompaWorker = MutableLiveData<Result<OompaLoompaWorker>>()
+    val oompaLoompaWorker : LiveData<Result<OompaLoompaWorker>>
+        get() = _oompaLoompaWorker
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     fun getWorker(id: Int) {
         coroutineScope.launch {
             val oompaLoompaWorker = oompaLoompaWorkerRepository.getWorker(id)
-            this@OompaLoompaWorkerViewModel.oompaLoompaWorker.postValue(Result.Loading(_data = null))
+            this@OompaLoompaWorkerViewModel._oompaLoompaWorker.postValue(Result.Loading(_data = null))
             try {
-                this@OompaLoompaWorkerViewModel.oompaLoompaWorker.postValue(Result.Success(_data = oompaLoompaWorker))
+                this@OompaLoompaWorkerViewModel._oompaLoompaWorker.postValue(Result.Success(_data = oompaLoompaWorker))
             } catch (exception: Exception) {
-                this@OompaLoompaWorkerViewModel.oompaLoompaWorker.postValue(Result.Error(_data = null, _message = exception.message ?: "Error Occurred!"))
+                this@OompaLoompaWorkerViewModel._oompaLoompaWorker.postValue(Result.Error(_data = null, _message = exception.message ?: "Error Occurred!"))
             }
         }
     }

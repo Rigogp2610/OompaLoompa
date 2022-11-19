@@ -1,7 +1,9 @@
 package com.robgar.oompaloompa.ui.oompaloompaworkers
 
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -46,8 +48,8 @@ class OompaLoompaWorkersFragment : Fragment() {
     }
 
     private fun setupObserver() {
-        viewModel.oompaLoompaWorkers.observe(viewLifecycleOwner) {
-            it?.let { result ->
+        viewModel.oompaLoompaWorkers.observe(viewLifecycleOwner) { value ->
+            value?.handle { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
                         binding.recycler.visibility = View.VISIBLE
@@ -60,7 +62,7 @@ class OompaLoompaWorkersFragment : Fragment() {
                     Status.ERROR -> {
                         binding.recycler.visibility = View.VISIBLE
                         binding.progress.visibility = View.GONE
-                        Toast.makeText(requireActivity(), it.message, Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireActivity(), result.message, Toast.LENGTH_LONG).show()
                     }
                     Status.LOADING -> {
                         binding.recycler.visibility = View.GONE

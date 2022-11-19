@@ -1,11 +1,13 @@
 package com.robgar.oompaloompa.ui.main
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.robgar.oompaloompa.R
 import com.robgar.oompaloompa.data.model.OompaLoompaWorkers
 import com.robgar.oompaloompa.data.model.OompaLoompaWorker
 import com.robgar.oompaloompa.data.repository.OompaLoompaWorkersRepository
+import com.robgar.oompaloompa.utils.ConsumableValue
 import com.robgar.oompaloompa.utils.Result
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -14,28 +16,41 @@ import kotlinx.coroutines.launch
 
 class OompaLoompaWorkersViewModel(private val oompaLoompaWorkersRepository: OompaLoompaWorkersRepository) : ViewModel() {
 
-    val oompaLoompaWorkers = MutableLiveData<Result<OompaLoompaWorkers>>()
+    private val _oompaLoompaWorkers = MutableLiveData<ConsumableValue<Result<OompaLoompaWorkers>>>()
+    val oompaLoompaWorkers: LiveData<ConsumableValue<Result<OompaLoompaWorkers>>>
+        get() = _oompaLoompaWorkers
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
-    private var page: Int = 1
+
+    private val errorOcurred = "Error Occurred!"
+
+    private var nextPage: Int = 1
+    private var currentPage: Int = 0
     var totalPages: Int = 1
     private var filter: Int = 0
 
-    fun getOompaLoompaWorkers() {
-        oompaLoompaWorkers.postValue(Result.Loading(_data = null))
-        coroutineScope.launch {
-            try {
-                val workers = oompaLoompaWorkersRepository.getOompaLoompaWorkers(page)
-                oompaLoompaWorkers.postValue(Result.Success(_data = workers))
-            } catch (exception: Exception) {
-                oompaLoompaWorkers.postValue(Result.Error(_data = null, _message = exception.message ?: "Error Occurred!"))
-            }
+    fun nextPage() {
+        nextPage += 1
+        if (totalPages >= nextPage && nextPage > currentPage) {
+            getOompaLoompaWorkers()
         }
     }
 
-    fun nextPage() {
-        page += 1
-        if (totalPages >= page) {
-            getOompaLoompaWorkers()
+    fun getOompaLoompaWorkers() {
+        if (nextPage > currentPage) {
+            currentPage = nextPage
+            getOompaLoompaWorkersByPage()
+        }
+    }
+
+    private fun getOompaLoompaWorkersByPage() {
+        _oompaLoompaWorkers.postValue(ConsumableValue(Result.Loading(_data = null)))
+        coroutineScope.launch {
+            try {
+                val workers = oompaLoompaWorkersRepository.getOompaLoompaWorkers(nextPage)
+                _oompaLoompaWorkers.postValue(ConsumableValue(Result.Success(_data = workers)))
+            } catch (exception: Exception) {
+                _oompaLoompaWorkers.postValue(ConsumableValue(Result.Error(_data = null, _message = exception.message ?: errorOcurred)))
+            }
         }
     }
 
