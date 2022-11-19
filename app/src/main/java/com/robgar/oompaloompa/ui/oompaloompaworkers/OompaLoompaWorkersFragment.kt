@@ -73,7 +73,7 @@ class OompaLoompaWorkersFragment : Fragment() {
     }
 
     private fun retrieveData(oompaLoompaWorkers: OompaLoompaWorkers) {
-        adapter.workers = viewModel.getFilteredWorkers(adapter.workers + oompaLoompaWorkers.workers)
+        adapter.oompaLoompaWorkers = viewModel.getFilteredWorkers(adapter.oompaLoompaWorkers + oompaLoompaWorkers.oompaLoompaWorkers)
     }
 
     private fun setupScrollView() {

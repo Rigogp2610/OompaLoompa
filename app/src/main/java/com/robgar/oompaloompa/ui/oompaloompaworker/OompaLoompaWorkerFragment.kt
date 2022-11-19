@@ -8,7 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
-import com.robgar.oompaloompa.data.model.Worker
+import com.robgar.oompaloompa.data.model.OompaLoompaWorker
 import com.robgar.oompaloompa.databinding.FragmentOompaLoompaWorkerFragmentBinding
 import com.robgar.oompaloompa.ui.loadUrl
 import com.robgar.oompaloompa.utils.Status
@@ -40,7 +40,7 @@ class OompaLoompaWorkerFragment : Fragment() {
     }
 
     private fun setupObserver() {
-        viewModel.worker.observe(viewLifecycleOwner, Observer {
+        viewModel.oompaLoompaWorker.observe(viewLifecycleOwner, Observer {
             it?.let { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
@@ -56,14 +56,14 @@ class OompaLoompaWorkerFragment : Fragment() {
         viewModel.getWorker(args.idOompaLoompaWorker)
     }
 
-    private fun retrieveData(worker: Worker) {
-        binding.ivOompaLoompa.loadUrl(worker.image)
-        binding.tvName.text = "${worker.firstName} ${worker.lastName}"
-        binding.tvDescription.text = worker.description
-        binding.tvProfession.text = worker.profession
-        binding.tvGender.text = worker.gender
-        binding.tvCountry.text = worker.country
-        binding.tvAge.text = worker.age.toString()
-        binding.tvHeight.text = worker.height.toString()
+    private fun retrieveData(oompaLoompaWorker: OompaLoompaWorker) {
+        binding.ivOompaLoompa.loadUrl(oompaLoompaWorker.image)
+        binding.tvName.text = "${oompaLoompaWorker.firstName} ${oompaLoompaWorker.lastName}"
+        binding.tvDescription.text = oompaLoompaWorker.description
+        binding.tvProfession.text = oompaLoompaWorker.profession
+        binding.tvGender.text = oompaLoompaWorker.gender
+        binding.tvCountry.text = oompaLoompaWorker.country
+        binding.tvAge.text = oompaLoompaWorker.age.toString()
+        binding.tvHeight.text = oompaLoompaWorker.height.toString()
     }
 }

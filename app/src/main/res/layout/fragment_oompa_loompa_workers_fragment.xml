@@ -14,7 +14,7 @@
         android:clipToPadding="false"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/item_worker"/>
+        tools:listitem="@layout/item_oompa_loompa_worker"/>
 
     <ProgressBar
         android:id="@+id/progress"
