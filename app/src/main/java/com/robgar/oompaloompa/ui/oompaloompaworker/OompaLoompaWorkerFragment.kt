@@ -8,6 +8,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
+import com.robgar.oompaloompa.R
 import com.robgar.oompaloompa.data.model.OompaLoompaWorker
 import com.robgar.oompaloompa.databinding.FragmentOompaLoompaWorkerFragmentBinding
 import com.robgar.oompaloompa.ui.loadUrl
@@ -63,7 +64,7 @@ class OompaLoompaWorkerFragment : Fragment() {
         binding.tvProfession.text = oompaLoompaWorker.profession
         binding.tvGender.text = oompaLoompaWorker.gender
         binding.tvCountry.text = oompaLoompaWorker.country
-        binding.tvAge.text = oompaLoompaWorker.age.toString()
-        binding.tvHeight.text = oompaLoompaWorker.height.toString()
+        binding.tvAge.text = "${oompaLoompaWorker.age}"
+        binding.tvHeight.text = "${oompaLoompaWorker.height}"
     }
 }
