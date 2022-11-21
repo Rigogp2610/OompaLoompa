@@ -1,97 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/activity_detail"
+<androidx.constraintlayout.widget.ConstraintLayout android:id="@+id/activity_detail"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/medium_margin"
+    android:paddingRight="@dimen/medium_margin"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:id="@+id/ivOompaLoompa"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_worker_image_height"
         android:layout_centerHorizontal="true"
-        android:scaleType="fitCenter"/>
+        android:scaleType="fitCenter"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
         android:id="@+id/tvName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivOompaLoompa"
-        android:layout_marginLeft="@dimen/medium_margin"
-        android:layout_marginTop="@dimen/small_margin"
-        android:textColor="@color/black"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"/>
+        style="@style/OompaLoompaWorkerLeftText"
+        app:layout_constraintTop_toBottomOf="@id/ivOompaLoompa"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/tvDescription"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvName"
-        android:layout_marginLeft="@dimen/medium_margin"
-        android:layout_marginTop="@dimen/small_margin"
-        android:textColor="@color/black"
-        android:textSize="@dimen/description"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"/>
-
-    <Space
-        android:id="@+id/spacer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"/>
+        style="@style/OompaLoompaWorkerLeftText"
+        app:layout_constraintTop_toBottomOf="@id/tvName"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/tvProfession"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvDescription"
-        android:layout_marginLeft="@dimen/medium_margin"
-        android:layout_marginTop="@dimen/small_margin"
-        android:textColor="@color/black"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"/>
+        style="@style/OompaLoompaWorkerLeftText"
+        app:layout_constraintTop_toBottomOf="@+id/tvDescription"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/tvGender"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/spacer"
-        android:layout_below="@+id/tvDescription"
-        android:layout_marginLeft="@dimen/medium_margin"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_marginBottom="@dimen/small_margin"
-        android:textColor="@color/black"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"/>
+        style="@style/OompaLoompaWorkerRightText"
+        app:layout_constraintTop_toBottomOf="@id/tvDescription"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.6"/>
 
     <TextView
         android:id="@+id/tvCountry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvProfession"
-        android:layout_marginLeft="@dimen/medium_margin"
-        android:layout_marginTop="@dimen/small_margin"
-        android:textColor="@color/black"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"/>
+        style="@style/OompaLoompaWorkerLeftText"
+        app:layout_constraintTop_toBottomOf="@id/tvProfession"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/tvAge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvCountry"
-        android:layout_marginLeft="@dimen/medium_margin"
-        android:layout_marginTop="@dimen/small_margin"
-        android:textColor="@color/black"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"/>
+        style="@style/OompaLoompaWorkerLeftText"
+        app:layout_constraintTop_toBottomOf="@id/tvCountry"
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
         android:id="@+id/tvHeight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/spacer"
-        android:layout_below="@+id/tvCountry"
-        android:layout_marginLeft="@dimen/medium_margin"
-        android:layout_marginTop="@dimen/small_margin"
-        android:layout_marginBottom="@dimen/small_margin"
-        android:textColor="@color/black"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium.Inverse"/>
+        style="@style/OompaLoompaWorkerRightText"
+        app:layout_constraintTop_toBottomOf="@id/tvCountry"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintWidth_percent="0.6"/>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
