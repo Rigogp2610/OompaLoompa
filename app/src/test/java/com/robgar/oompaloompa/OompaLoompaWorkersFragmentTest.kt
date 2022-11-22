@@ -7,14 +7,15 @@ import com.robgar.oompaloompa.data.model.OompaLoompaWorker
 import com.robgar.oompaloompa.data.repository.OompaLoompaWorkersRepository
 import com.robgar.oompaloompa.ui.filter_dialog.FilterType
 import com.robgar.oompaloompa.ui.main.OompaLoompaWorkersViewModel
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Test
+import org.mockito.Mockito
+import org.mockito.Mockito.mock
+import org.mockito.kotlin.verify
 
 class OompaLoompaWorkersFragmentTest {
 
-    private var viewModel = OompaLoompaWorkersViewModel(OompaLoompaWorkersRepository(ApiHelper(RetrofitBuilder.getApiService())))
-    private var apiHelper: ApiHelper = ApiHelper(RetrofitBuilder.getApiService())
-    private var oompaLoompaWorkersRepository = OompaLoompaWorkersRepository(apiHelper)
     private var oompaLoompaWorkers: List<OompaLoompaWorker> = listOf(
         OompaLoompaWorker("","","", Favorite("","","",""),"F","",
             "Developer","","",24,"",40,1),
@@ -71,10 +72,18 @@ class OompaLoompaWorkersFragmentTest {
     @Test
     fun filterByGender() {
         val filterList = mutableListOf<Pair<FilterType, String>>()
-        filterList.add(Pair(FilterType.GENDER, "F"))
+        filterList.add(Pair(FilterType.GENDER, "Female"))
         setFilterList(filterList)
         val result = getFilteredOompaLoompaWorkers()
 
         assertEquals(result.size, 3)
+    }
+
+    @Test
+    fun verifyGetOompaLoompaWorkers() {
+        val mock = mock(OompaLoompaWorkersViewModel::class.java)
+
+        mock.getOompaLoompaWorkers()
+        verify(mock).getOompaLoompaWorkers()
     }
 }
