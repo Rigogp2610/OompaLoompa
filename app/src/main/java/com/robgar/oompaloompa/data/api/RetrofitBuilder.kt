@@ -15,5 +15,4 @@ object RetrofitBuilder {
     }
 
     fun getApiService() = getRetrofit().create(ApiService::class.java)
-    //val apiService: ApiService = getRetrofit().create(ApiService::class.java)
 }

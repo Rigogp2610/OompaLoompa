@@ -1,16 +1,19 @@
 package com.robgar.oompaloompa.ui.oompaloompaworkers
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import com.robgar.oompaloompa.R
 import com.robgar.oompaloompa.data.model.OompaLoompaWorkers
 import com.robgar.oompaloompa.databinding.FragmentOompaLoompaWorkersFragmentBinding
+import com.robgar.oompaloompa.ui.filter_dialog.FilterDialog
+import com.robgar.oompaloompa.ui.filter_dialog.FilterType
 import com.robgar.oompaloompa.ui.main.OompaLoompaWorkersViewModel
 import com.robgar.oompaloompa.utils.Status
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -27,6 +30,7 @@ class OompaLoompaWorkersFragment : Fragment() {
 
     private lateinit var binding : FragmentOompaLoompaWorkersFragmentBinding
 
+    private lateinit var filterDialog: FilterDialog
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +50,10 @@ class OompaLoompaWorkersFragment : Fragment() {
         setupObserver()
 
         setupScrollView()
+
+        filterDialog = FilterDialog(requireActivity()) { filterResponse(it) }
+
+        setupMenu()
     }
 
     private fun setupObserver() {
@@ -57,7 +65,6 @@ class OompaLoompaWorkersFragment : Fragment() {
                         binding.progress.visibility = View.GONE
                         binding.progressPagination.visibility = View.GONE
                         result.data?.let { oompaLoompaWorkers ->
-                            viewModel.totalPages = oompaLoompaWorkers.totalPages
                             retrieveData(oompaLoompaWorkers)
                         }
                     }
@@ -82,7 +89,7 @@ class OompaLoompaWorkersFragment : Fragment() {
     }
 
     private fun retrieveData(oompaLoompaWorkers: OompaLoompaWorkers) {
-        adapter.oompaLoompaWorkers = viewModel.getFilteredWorkers(adapter.oompaLoompaWorkers + oompaLoompaWorkers.oompaLoompaWorkers)
+        adapter.oompaLoompaWorkers = oompaLoompaWorkers.oompaLoompaWorkers
     }
 
     private fun setupScrollView() {
@@ -95,5 +102,30 @@ class OompaLoompaWorkersFragment : Fragment() {
                 }
             }
         }))
+    }
+
+    private fun setupMenu() {
+        val menuHost: MenuHost = requireActivity()
+
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.main, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.filter -> {
+                        filterDialog.show()
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    private fun filterResponse(filterList: List<Pair<FilterType, String>>) {
+        viewModel.setFilterList(filterList)
+        viewModel.showFilteredOompaLoompaWorkers()
     }
 }

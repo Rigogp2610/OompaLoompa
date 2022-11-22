@@ -5,4 +5,19 @@
     <string name="profession_gender">Profession and gender</string>
     <string name="oompa_loompa_workers_fragment">Oompa Loompa Workers</string>
     <string name="oompa_loompa_worker_fragment">Oompa Loompa Detail</string>
+    <string name="filter">Filter</string>
+    <string name="cancel">Cancel</string>
+    <string-array name="genderTypes">
+        <item>All</item>
+        <item>Male</item>
+        <item>Female</item>
+    </string-array>
+    <string-array name="professionTypes">
+        <item>All</item>
+        <item>Developer</item>
+        <item>Metalworker</item>
+        <item>Gemcutter</item>
+        <item>Medic</item>
+        <item>Brewer</item>
+    </string-array>
 </resources>

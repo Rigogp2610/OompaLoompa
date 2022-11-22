@@ -8,5 +8,5 @@ data class OompaLoompaWorkers (
     @SerializedName("total")
     val totalPages: Int,
     @SerializedName("results")
-    val oompaLoompaWorkers: List<OompaLoompaWorker>
+    var oompaLoompaWorkers: List<OompaLoompaWorker>
 )
