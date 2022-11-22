@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="wrap_content"
+    android:id="@+id/dialogFilter"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputGender"
+        style="@style/TextInputLayoutDialog"
+        android:hint="@string/gender"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <AutoCompleteTextView
+            android:id="@+id/exposedDropdownGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputProfession"
+        style="@style/TextInputLayoutDialog"
+        android:hint="@string/profession"
+        android:layout_marginTop="@dimen/medium_margin"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputGender">
+
+        <AutoCompleteTextView
+            android:id="@+id/exposedDropdownProfession"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnFilter"
+        style="@style/ButtonDialog"
+        android:text="@string/filter"
+        android:textColor="@color/colorPrimary"
+        android:layout_marginTop="@dimen/large_margin"
+        app:layout_constraintTop_toBottomOf="@+id/textInputProfession"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnCancel"
+        style="@style/ButtonDialog"
+        android:text="@string/cancel"
+        android:textColor="@color/cancel"
+        app:layout_constraintTop_toTopOf="@+id/btnFilter"
+        app:layout_constraintEnd_toStartOf="@+id/btnFilter"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
