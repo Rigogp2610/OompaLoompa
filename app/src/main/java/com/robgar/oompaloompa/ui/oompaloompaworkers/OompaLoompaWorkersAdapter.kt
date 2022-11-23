@@ -42,10 +42,12 @@ class OompaLoompaWorkersAdapter(
         private var binding = ItemOompaLoompaWorkerBinding.bind(itemView)
 
         fun bind(oompaLoompaWorker: OompaLoompaWorker) {
-            binding.ivOompaLoompa.loadUrl(oompaLoompaWorker.image)
-            binding.tvName.text = "${oompaLoompaWorker.firstName} ${oompaLoompaWorker.lastName}"
-            binding.tvProfession.text = oompaLoompaWorker.profession
-            binding.tvGender.text = oompaLoompaWorker.gender
+            with(binding) {
+                ivOompaLoompa.loadUrl(oompaLoompaWorker.image)
+                tvName.text = "${oompaLoompaWorker.firstName} ${oompaLoompaWorker.lastName}"
+                tvProfession.text = oompaLoompaWorker.profession
+                tvGender.text = oompaLoompaWorker.gender
+            }
         }
     }
 }

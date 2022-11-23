@@ -41,30 +41,37 @@ class OompaLoompaWorkerFragment : Fragment() {
     }
 
     private fun setupObserver() {
-        viewModel.oompaLoompaWorker.observe(viewLifecycleOwner, Observer {
+        viewModel.oompaLoompaWorker.observe(viewLifecycleOwner) {
             it?.let { result ->
                 when (result.status) {
                     Status.SUCCESS -> {
+                        binding.progress.visibility = View.GONE
                         result.data?.let { worker ->
                             retrieveData(worker)
                         }
-                    } Status.ERROR -> {
-                    Toast.makeText(requireActivity(), it.message, Toast.LENGTH_LONG).show()
-                } Status.LOADING -> { }
+                    }
+                    Status.ERROR -> {
+                        Toast.makeText(requireActivity(), it.message, Toast.LENGTH_LONG).show()
+                    }
+                    Status.LOADING -> {
+                        binding.progress.visibility = View.VISIBLE
+                    }
                 }
             }
-        })
-        viewModel.getWorker(args.idOompaLoompaWorker)
+        }
+        viewModel.getOompaLoompaWorker(args.idOompaLoompaWorker)
     }
 
     private fun retrieveData(oompaLoompaWorker: OompaLoompaWorker) {
-        binding.ivOompaLoompa.loadUrl(oompaLoompaWorker.image)
-        binding.tvName.text = "${oompaLoompaWorker.firstName} ${oompaLoompaWorker.lastName}"
-        binding.tvDescription.text = oompaLoompaWorker.description
-        binding.tvProfession.text = oompaLoompaWorker.profession
-        binding.tvGender.text = oompaLoompaWorker.gender
-        binding.tvCountry.text = oompaLoompaWorker.country
-        binding.tvAge.text = "${oompaLoompaWorker.age}"
-        binding.tvHeight.text = "${oompaLoompaWorker.height}"
+        with(binding) {
+            ivOompaLoompa.loadUrl(oompaLoompaWorker.image)
+            tvName.text = "${oompaLoompaWorker.firstName} ${oompaLoompaWorker.lastName}"
+            tvDescription.text = oompaLoompaWorker.description
+            tvProfession.text = oompaLoompaWorker.profession
+            tvGender.text = oompaLoompaWorker.gender
+            tvCountry.text = oompaLoompaWorker.country
+            tvAge.text = "${oompaLoompaWorker.age}"
+            tvHeight.text = "${oompaLoompaWorker.height}"
+        }
     }
 }
