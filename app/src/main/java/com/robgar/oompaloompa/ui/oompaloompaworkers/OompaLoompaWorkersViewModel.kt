@@ -1,4 +1,4 @@
-package com.robgar.oompaloompa.ui.main
+package com.robgar.oompaloompa.ui.oompaloompaworkers
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,7 +23,7 @@ class OompaLoompaWorkersViewModel(private val oompaLoompaWorkersRepository: Oomp
 
     private lateinit var oompaLoompaWorkerList: OompaLoompaWorkers
 
-    private val errorOcurred = "Error Occurred!"
+    private val errorGetOompaLoompaWorkers = "An error has occured. Try it again later"
     val firstPage = 1
 
     private var page: Int = 1
@@ -46,7 +46,7 @@ class OompaLoompaWorkersViewModel(private val oompaLoompaWorkersRepository: Oomp
     }
 
     private fun getOompaLoompaWorkersByPage() {
-        _oompaLoompaWorkers.postValue(ConsumableValue(Result.Loading(_data = null)))
+        _oompaLoompaWorkers.postValue(ConsumableValue(Result.Loading))
         coroutineScope.launch {
             try {
                 val workers = oompaLoompaWorkersRepository.getOompaLoompaWorkers(page)
@@ -56,17 +56,17 @@ class OompaLoompaWorkersViewModel(private val oompaLoompaWorkersRepository: Oomp
                     oompaLoompaWorkerList.oompaLoompaWorkers += workers.oompaLoompaWorkers
                 }
 
-                showFilteredOompaLoompaWorkers()
+                updateOompaLoompaWorkers()
             } catch (exception: Exception) {
-                _oompaLoompaWorkers.postValue(ConsumableValue(Result.Error(_data = null, _message = exception.message ?: errorOcurred)))
+                _oompaLoompaWorkers.postValue(ConsumableValue(Result.Error(message = exception.message ?: errorGetOompaLoompaWorkers)))
             }
         }
     }
 
-    fun showFilteredOompaLoompaWorkers() {
+    fun updateOompaLoompaWorkers() {
         val filterOompaLoompaWorkerList = oompaLoompaWorkerList.copy(oompaLoompaWorkers = getFilteredOompaLoompaWorkers())
 
-        _oompaLoompaWorkers.postValue(ConsumableValue(Result.Success(_data = filterOompaLoompaWorkerList)))
+        _oompaLoompaWorkers.postValue(ConsumableValue(Result.Success(data = filterOompaLoompaWorkerList)))
     }
 
     private fun getFilteredOompaLoompaWorkers() : List<OompaLoompaWorker> {
