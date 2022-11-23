@@ -1,6 +1,7 @@
 package com.robgar.oompaloompa.ui.oompaloompaworkers
 
 import android.content.Context
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,6 +26,9 @@ class OompaLoompaWorkersViewModel(
     private val _oompaLoompaWorkers = MutableLiveData<ConsumableValue<Result<OompaLoompaWorkers>>>()
     val oompaLoompaWorkers: LiveData<ConsumableValue<Result<OompaLoompaWorkers>>>
         get() = _oompaLoompaWorkers
+    private val _retryVisibility = MutableLiveData<ConsumableValue<Int>>()
+    val retryVisibility: LiveData<ConsumableValue<Int>>
+        get() = _retryVisibility
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
     private lateinit var oompaLoompaWorkerList: OompaLoompaWorkers
@@ -46,6 +50,7 @@ class OompaLoompaWorkersViewModel(
     fun getOompaLoompaWorkers() {
         if (page > currentPage) {
             currentPage = page
+            _retryVisibility.postValue(ConsumableValue(View.GONE))
             getOompaLoompaWorkersByPage()
         }
     }
@@ -65,12 +70,14 @@ class OompaLoompaWorkersViewModel(
                     updateOompaLoompaWorkers()
                 } catch (exception: Exception) {
                     resetPage()
+                    showRetryButtonIfNoContentDownloaded()
                     _oompaLoompaWorkers.postValue(ConsumableValue(Result.Error(
                         exception.message ?: context.getString(R.string.error_get_content))))
                 }
             }
         } else {
             resetPage()
+            showRetryButtonIfNoContentDownloaded()
             _oompaLoompaWorkers.postValue(ConsumableValue(Result.Error(context.getString(R.string.error_internet))))
         }
     }
@@ -78,7 +85,6 @@ class OompaLoompaWorkersViewModel(
     fun updateOompaLoompaWorkers() {
         if (::oompaLoompaWorkerList.isInitialized) {
             val filterOompaLoompaWorkerList = oompaLoompaWorkerList.copy(oompaLoompaWorkers = getFilteredOompaLoompaWorkers())
-
             _oompaLoompaWorkers.postValue(ConsumableValue(Result.Success(data = filterOompaLoompaWorkerList)))
         }
     }
@@ -99,6 +105,12 @@ class OompaLoompaWorkersViewModel(
     private fun resetPage() {
         if (page > firstPage) page--
         currentPage--
+    }
+
+    private fun showRetryButtonIfNoContentDownloaded() {
+        if (!::oompaLoompaWorkerList.isInitialized) {
+            _retryVisibility.postValue(ConsumableValue(View.VISIBLE))
+        }
     }
 
     fun setFilterList(filterList: List<Pair<FilterType, String>>) {

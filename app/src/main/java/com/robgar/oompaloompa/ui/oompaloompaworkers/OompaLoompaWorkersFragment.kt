@@ -46,16 +46,20 @@ class OompaLoompaWorkersFragment : Fragment() {
 
         binding.recycler.adapter = adapter
 
-        setupObserver()
+        observeOompaLoompaWorkers()
+
+        observeRetryButton()
 
         setupScrollView()
 
         filterDialog = FilterDialog(requireActivity()) { filterResponse(it) }
 
+        binding.btnRetry.setOnClickListener { viewModel.getOompaLoompaWorkers() }
+
         setupMenu()
     }
 
-    private fun setupObserver() {
+    private fun observeOompaLoompaWorkers() {
         viewModel.oompaLoompaWorkers.observe(viewLifecycleOwner) { value ->
             value?.handle { result ->
                 when (result) {
@@ -94,6 +98,14 @@ class OompaLoompaWorkersFragment : Fragment() {
             recycler.visibility = View.VISIBLE
             progress.visibility = View.GONE
             progressPagination.visibility = View.GONE
+        }
+    }
+
+    private fun observeRetryButton() {
+        viewModel.retryVisibility.observe(viewLifecycleOwner) { value ->
+            value?.handle {
+                binding.btnRetry.visibility = it
+            }
         }
     }
 

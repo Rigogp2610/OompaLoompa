@@ -9,4 +9,6 @@
     <dimen name="description">14sp</dimen>
     <dimen name="lottie_height">120dp</dimen>
     <dimen name="dialog_width">300dp</dimen>
+    <dimen name="retry_text">20sp</dimen>
+    <dimen name="retry_padding_vertical">12dp</dimen>
 </resources>
