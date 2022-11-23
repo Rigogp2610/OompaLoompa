@@ -18,14 +18,14 @@ class OompaLoompaWorkerViewModel(private val oompaLoompaWorkerRepository: OompaL
         get() = _oompaLoompaWorker
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
-    fun getWorker(id: Int) {
+    fun getOompaLoompaWorker(id: Int) {
+        _oompaLoompaWorker.postValue(Result.Loading(_data = null))
         coroutineScope.launch {
             val oompaLoompaWorker = oompaLoompaWorkerRepository.getWorker(id)
-            this@OompaLoompaWorkerViewModel._oompaLoompaWorker.postValue(Result.Loading(_data = null))
             try {
-                this@OompaLoompaWorkerViewModel._oompaLoompaWorker.postValue(Result.Success(_data = oompaLoompaWorker))
+                _oompaLoompaWorker.postValue(Result.Success(_data = oompaLoompaWorker))
             } catch (exception: Exception) {
-                this@OompaLoompaWorkerViewModel._oompaLoompaWorker.postValue(Result.Error(_data = null, _message = exception.message ?: "Error Occurred!"))
+                _oompaLoompaWorker.postValue(Result.Error(_data = null, _message = exception.message ?: "Error Occurred!"))
             }
         }
     }
