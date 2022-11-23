@@ -18,6 +18,24 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/progressPagination"/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnRetry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        app:layout_constraintWidth_percent="0.6"
+        android:paddingTop="@dimen/retry_padding_vertical"
+        android:paddingBottom="@dimen/retry_padding_vertical"
+        android:background="@drawable/retry_bg"
+        android:textSize="@dimen/retry_text"
+        android:textColor="@color/white"
+        android:text="@string/retry"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/progress"
         android:layout_width="match_parent"
