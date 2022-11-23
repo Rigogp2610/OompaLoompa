@@ -20,4 +20,7 @@
         <item>Medic</item>
         <item>Brewer</item>
     </string-array>
+    <string name="error_get_content">An error has occured. Try it again later</string>
+    <string name="error_internet">An error has occured. You don\'t have internet connection</string>
+
 </resources>
