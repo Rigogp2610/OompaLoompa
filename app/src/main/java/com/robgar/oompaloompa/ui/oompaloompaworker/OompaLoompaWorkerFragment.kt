@@ -6,13 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.navArgs
-import com.robgar.oompaloompa.R
 import com.robgar.oompaloompa.data.model.OompaLoompaWorker
 import com.robgar.oompaloompa.databinding.FragmentOompaLoompaWorkerFragmentBinding
 import com.robgar.oompaloompa.ui.loadUrl
-import com.robgar.oompaloompa.utils.Status
+import com.robgar.oompaloompa.utils.Result
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OompaLoompaWorkerFragment : Fragment() {
@@ -43,26 +41,22 @@ class OompaLoompaWorkerFragment : Fragment() {
     private fun setupObserver() {
         viewModel.oompaLoompaWorker.observe(viewLifecycleOwner) {
             it?.let { result ->
-                when (result.status) {
-                    Status.SUCCESS -> {
+                when (result) {
+                    is Result.Success -> {
                         binding.progress.visibility = View.GONE
-                        result.data?.let { worker ->
-                            retrieveData(worker)
-                        }
+                        showDataOfOompaLoompaWorker(result.data)
                     }
-                    Status.ERROR -> {
-                        Toast.makeText(requireActivity(), it.message, Toast.LENGTH_LONG).show()
+                    is Result.Error -> {
+                        Toast.makeText(requireActivity(), result.message, Toast.LENGTH_LONG).show()
                     }
-                    Status.LOADING -> {
-                        binding.progress.visibility = View.VISIBLE
-                    }
+                    is Result.Loading -> binding.progress.visibility = View.VISIBLE
                 }
             }
         }
         viewModel.getOompaLoompaWorker(args.idOompaLoompaWorker)
     }
 
-    private fun retrieveData(oompaLoompaWorker: OompaLoompaWorker) {
+    private fun showDataOfOompaLoompaWorker(oompaLoompaWorker: OompaLoompaWorker) {
         with(binding) {
             ivOompaLoompa.loadUrl(oompaLoompaWorker.image)
             tvName.text = "${oompaLoompaWorker.firstName} ${oompaLoompaWorker.lastName}"

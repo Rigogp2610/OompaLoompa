@@ -14,8 +14,7 @@ import com.robgar.oompaloompa.data.model.OompaLoompaWorkers
 import com.robgar.oompaloompa.databinding.FragmentOompaLoompaWorkersFragmentBinding
 import com.robgar.oompaloompa.ui.filter_dialog.FilterDialog
 import com.robgar.oompaloompa.ui.filter_dialog.FilterType
-import com.robgar.oompaloompa.ui.main.OompaLoompaWorkersViewModel
-import com.robgar.oompaloompa.utils.Status
+import com.robgar.oompaloompa.utils.Result
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class OompaLoompaWorkersFragment : Fragment() {
@@ -59,37 +58,43 @@ class OompaLoompaWorkersFragment : Fragment() {
     private fun setupObserver() {
         viewModel.oompaLoompaWorkers.observe(viewLifecycleOwner) { value ->
             value?.handle { result ->
-                when (result.status) {
-                    Status.SUCCESS -> {
-                        binding.recycler.visibility = View.VISIBLE
-                        binding.progress.visibility = View.GONE
-                        binding.progressPagination.visibility = View.GONE
-                        result.data?.let { oompaLoompaWorkers ->
-                            retrieveData(oompaLoompaWorkers)
-                        }
-                    }
-                    Status.ERROR -> {
-                        binding.recycler.visibility = View.VISIBLE
-                        binding.progress.visibility = View.GONE
-                        binding.progressPagination.visibility = View.GONE
-                        Toast.makeText(requireActivity(), result.message, Toast.LENGTH_LONG).show()
-                    }
-                    Status.LOADING -> {
-                        if (viewModel.getCurrentPage() == viewModel.firstPage) {
-                            binding.recycler.visibility = View.GONE
-                            binding.progress.visibility = View.VISIBLE
-                        } else {
-                            binding.progressPagination.visibility = View.VISIBLE
-                        }
-                    }
+                when (result) {
+                    is Result.Success -> success(result.data)
+                    is Result.Error -> error(result.message)
+                    is Result.Loading -> loading()
                 }
             }
         }
         viewModel.getOompaLoompaWorkers()
     }
 
-    private fun retrieveData(oompaLoompaWorkers: OompaLoompaWorkers) {
+    private fun success(oompaLoompaWorkers: OompaLoompaWorkers) {
+        endOfLoading()
         adapter.oompaLoompaWorkers = oompaLoompaWorkers.oompaLoompaWorkers
+    }
+
+    private fun error(message: String) {
+        endOfLoading()
+        Toast.makeText(requireActivity(), message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun loading() {
+        when (viewModel.getCurrentPage()) {
+            viewModel.firstPage -> {
+                binding.recycler.visibility = View.GONE
+                binding.progress.visibility = View.VISIBLE
+            }
+            else -> binding.progressPagination.visibility = View.VISIBLE
+
+        }
+    }
+
+    private fun endOfLoading() {
+        with(binding) {
+            recycler.visibility = View.VISIBLE
+            progress.visibility = View.GONE
+            progressPagination.visibility = View.GONE
+        }
     }
 
     private fun setupScrollView() {
@@ -126,6 +131,6 @@ class OompaLoompaWorkersFragment : Fragment() {
 
     private fun filterResponse(filterList: List<Pair<FilterType, String>>) {
         viewModel.setFilterList(filterList)
-        viewModel.showFilteredOompaLoompaWorkers()
+        viewModel.updateOompaLoompaWorkers()
     }
 }
